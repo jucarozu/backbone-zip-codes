@@ -1,0 +1,39 @@
+on: push
+name: CI - Tests
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:8.0
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: default
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: backbone-zip-codes-tests
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: Install Composer dependencies
+        run: |
+          cd src
+          composer install --no-scripts
+
+      - name: Prepare Laravel application
+        run: |
+          cd src
+          cp .env.ci .env
+          php artisan key:generate
+
+      - name: Run tests
+        run: |
+          cd src
+          php artisan test

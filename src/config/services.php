@@ -31,4 +31,13 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'custom' => [
+        'data' => [
+            'source' => [
+                'enabled' => env('CUSTOM_DATA_SOURCE_ENABLED', true),
+                'path' => env('CUSTOM_DATA_SOURCE_PATH'),
+            ],
+        ],
+    ],
+
 ];
