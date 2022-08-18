@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('key');
             $table->string('name')->nullable();
             $table->string('zone_type')->nullable();
-            $table->foreignId('zip_code_id')->nullable()->constrained();
             $table->foreignId('settlement_type_id')->nullable()->constrained();
+            $table->foreignId('zip_code_id')->nullable()->constrained();
             $table->unique(['key', 'zip_code_id']);
             $table->timestamps();
         });
